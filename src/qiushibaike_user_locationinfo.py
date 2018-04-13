@@ -4,7 +4,7 @@ from lxml import etree
 import csv
 import json
 
-fp = open('F:\work\python\PythonNetworkScriptLearn\data\map.csv', 'wt', newline='', encoding='utf-8')
+fp = open('../data/map.csv', 'wt', newline='', encoding='utf-8')
 writer = csv.writer(fp)
 writer.writerow(('address', 'longitude', 'latitude'))
 
@@ -18,7 +18,8 @@ def get_user_url(url):
     url_part = 'http://www.qiushibaike.com'
     res = requests.get(url, headers=headers)
     selector = etree.HTML(res.text)
-    url_infos = selector.xpath('//div[@class="article block untagged mb15"]')
+    url_infos = selector.xpath('//div[@id="content-left"]/div')
+    print(len(url_infos))
     print(url_infos)
     for url_info in url_infos:
         user_part_urls = url_info.xpath('div[1]/a[1]/@href')
@@ -60,7 +61,7 @@ def get_geo(address):
 
 
 if __name__ == '__main__':
-    urls = ['http://www.qiushibaike.com/text/page/{}/'.format(str(i)) for i in range(1, 36)]
+    urls = ['http://www.qiushibaike.com/text/page/{}/'.format(str(i)) for i in range(1, 2)]
     for url in urls:
         print(url)
         get_user_url(url)
